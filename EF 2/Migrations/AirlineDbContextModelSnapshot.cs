@@ -22,36 +22,6 @@ namespace EF_2.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AircraftRoute", b =>
-                {
-                    b.Property<int>("AircraftsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoutesId")
-                        .HasColumnType("int");
-
-                    b.Property<TimeOnly>("Arrival")
-                        .HasColumnType("time");
-
-                    b.Property<TimeOnly>("Departure")
-                        .HasColumnType("time");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumOfPassangers")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.HasKey("AircraftsId", "RoutesId");
-
-                    b.HasIndex("RoutesId");
-
-                    b.ToTable("AircraftRoute", (string)null);
-                });
-
             modelBuilder.Entity("EF_2.Model.Aircraft", b =>
                 {
                     b.Property<int>("Id")
@@ -75,6 +45,36 @@ namespace EF_2.Migrations
                     b.HasIndex("AirlineId");
 
                     b.ToTable("Aircrafts");
+                });
+
+            modelBuilder.Entity("EF_2.Model.AircraftRoute", b =>
+                {
+                    b.Property<int>("AircraftId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RouteId")
+                        .HasColumnType("int");
+
+                    b.Property<TimeOnly>("Arrival")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly>("Departure")
+                        .HasColumnType("time");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfPassangers")
+                        .HasColumnType("int");
+
+                    b.Property<int>("price")
+                        .HasColumnType("int");
+
+                    b.HasKey("AircraftId", "RouteId");
+
+                    b.HasIndex("RouteId");
+
+                    b.ToTable("AircraftRoutes");
                 });
 
             modelBuilder.Entity("EF_2.Model.Airline", b =>
@@ -179,6 +179,19 @@ namespace EF_2.Migrations
                     b.ToTable("Phones");
                 });
 
+            modelBuilder.Entity("EF_2.Model.Qualification", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("EmployeeId", "Name");
+
+                    b.ToTable("Qualifications");
+                });
+
             modelBuilder.Entity("EF_2.Model.Route", b =>
                 {
                     b.Property<int>("Id")
@@ -235,21 +248,6 @@ namespace EF_2.Migrations
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("AircraftRoute", b =>
-                {
-                    b.HasOne("EF_2.Model.Aircraft", null)
-                        .WithMany()
-                        .HasForeignKey("AircraftsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EF_2.Model.Route", null)
-                        .WithMany()
-                        .HasForeignKey("RoutesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("EF_2.Model.Aircraft", b =>
                 {
                     b.HasOne("EF_2.Model.Airline", "AirCraftAirline")
@@ -259,6 +257,25 @@ namespace EF_2.Migrations
                         .IsRequired();
 
                     b.Navigation("AirCraftAirline");
+                });
+
+            modelBuilder.Entity("EF_2.Model.AircraftRoute", b =>
+                {
+                    b.HasOne("EF_2.Model.Aircraft", "Aircraft")
+                        .WithMany("AircraftRoutes")
+                        .HasForeignKey("AircraftId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EF_2.Model.Route", "Route")
+                        .WithMany("AircraftRoutes")
+                        .HasForeignKey("RouteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aircraft");
+
+                    b.Navigation("Route");
                 });
 
             modelBuilder.Entity("EF_2.Model.Crew", b =>
@@ -294,6 +311,17 @@ namespace EF_2.Migrations
                     b.Navigation("AirlinePhones");
                 });
 
+            modelBuilder.Entity("EF_2.Model.Qualification", b =>
+                {
+                    b.HasOne("EF_2.Model.Empolyee", "Empolyee")
+                        .WithMany("Qualifications")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Empolyee");
+                });
+
             modelBuilder.Entity("EF_2.Model.Transaction", b =>
                 {
                     b.HasOne("EF_2.Model.Airline", "TransactionAirline")
@@ -309,6 +337,8 @@ namespace EF_2.Migrations
                 {
                     b.Navigation("AircraftCrew")
                         .IsRequired();
+
+                    b.Navigation("AircraftRoutes");
                 });
 
             modelBuilder.Entity("EF_2.Model.Airline", b =>
@@ -320,6 +350,16 @@ namespace EF_2.Migrations
                     b.Navigation("Phones");
 
                     b.Navigation("Transaction");
+                });
+
+            modelBuilder.Entity("EF_2.Model.Empolyee", b =>
+                {
+                    b.Navigation("Qualifications");
+                });
+
+            modelBuilder.Entity("EF_2.Model.Route", b =>
+                {
+                    b.Navigation("AircraftRoutes");
                 });
 #pragma warning restore 612, 618
         }

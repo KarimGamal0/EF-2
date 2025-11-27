@@ -22,6 +22,9 @@ namespace EF_2.Model
 
         public Crew AircraftCrew { get; set; } = null!;
 
-        public ICollection<Route> Routes { get; set; } = new HashSet<Route>();
+        //public ICollection<Route> Routes { get; set; } = new HashSet<Route>();
+
+        [InverseProperty(nameof(AircraftRoute.Aircraft))]
+        public ICollection<AircraftRoute> AircraftRoutes { get; set; } = new HashSet<AircraftRoute>();
     }
 }

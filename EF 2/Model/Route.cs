@@ -18,6 +18,8 @@ namespace EF_2.Model
 
         public string Classification { get; set; }
 
-        public ICollection<Aircraft> Aircrafts { get; set; } = new HashSet<Aircraft>();
+        //public ICollection<Aircraft> Aircrafts { get; set; } = new HashSet<Aircraft>();
+
+        public ICollection<AircraftRoute> AircraftRoutes { get; set; } = new HashSet<AircraftRoute>();
     }
 }

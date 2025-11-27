@@ -28,5 +28,7 @@ namespace EF_2.Model
         [ForeignKey(nameof(EmployeeAirline))]
         public int AirlineId { get; set; }
 
+        public ICollection<Qualification> Qualifications { get; set; } = new HashSet<Qualification>();
+
     }
 }

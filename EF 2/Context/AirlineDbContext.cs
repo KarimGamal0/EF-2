@@ -23,17 +23,17 @@ namespace EF_2.Context
             modelBuilder.Entity<Aircraft>().HasOne(A => A.AircraftCrew).WithOne(C => C.Aircraft)
                 .HasForeignKey<Crew>(C => C.AircraftId);
 
-            modelBuilder.Entity<Aircraft>().HasMany(R => R.Routes).WithMany(A => A.Aircrafts)
-                .UsingEntity(rt =>
-                {
-                    rt.ToTable("AircraftRoute");
-                    rt.Property<int>("NumOfPassangers");
-                    rt.Property<int>("Price");
-                    rt.Property<TimeOnly>("Departure");
-                    rt.Property<TimeOnly>("Arrival");
-                    rt.Property<int>("Duration");
-                }
-                );
+            //modelBuilder.Entity<Aircraft>().HasMany(R => R.Routes).WithMany(A => A.Aircrafts)
+            //    .UsingEntity(rt =>
+            //    {
+            //        rt.ToTable("AircraftRoute");
+            //        rt.Property<int>("NumOfPassangers");
+            //        rt.Property<int>("Price");
+            //        rt.Property<TimeOnly>("Departure");
+            //        rt.Property<TimeOnly>("Arrival");
+            //        rt.Property<int>("Duration");
+            //    }
+            //    );
 
             modelBuilder.Entity<Phone>().HasKey(P => P.Number);
 
@@ -55,5 +55,9 @@ namespace EF_2.Context
         public DbSet<Phone> Phones { get; set; }
 
         public DbSet<Route> Routes { get; set; }
+
+        public DbSet<AircraftRoute> AircraftRoutes { get; set; }
+
+        public DbSet<Qualification> Qualifications { get; set; }
     }
 }
